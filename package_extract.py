@@ -418,8 +418,15 @@ def main():
     print(f'State file: {state_file}')
 
 
-if __name__ == '__main__':
+def cli() -> int:
+    """Use the same exit status and error reporting for all CLI entry points."""
     try:
         main()
     except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as error:
-        sys.exit(f'Error: {error}')
+        print(f'Error: {error}', file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(cli())

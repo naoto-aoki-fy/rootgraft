@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rootgraft"
+version = "0.1.0"
+description = "Extract RPM/DEB dependencies and run commands with a root filesystem overlay"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+classifiers = [
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+]
+
+[project.scripts]
+rootgraft = "root_graft:main"
+package-extract = "package_extract:cli"
+
+[tool.setuptools]
+py-modules = ["root_graft", "package_extract"]
