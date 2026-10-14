@@ -45,3 +45,8 @@ your system package manager.
 
 The extraction state records packages copied into the output directory;
 extraction does not install them into the system package database.
+
+By default, the state file is `.package-flat-state.json` in the output
+directory's parent folder. For example, `--output ./root` uses
+`./.package-flat-state.json`. Use `--state PATH` to choose a different location,
+including an existing state file inside the output directory.

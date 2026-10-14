@@ -389,7 +389,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('packages', nargs='+', help='Package name(s) or package specifications')
     parser.add_argument('-o', '--output', type=Path, required=True, help='Shared extraction root')
-    parser.add_argument('--state', type=Path, help='JSON state (default: OUTPUT/.package-flat-state.json)')
+    parser.add_argument('--state', type=Path, help='JSON state (default: OUTPUT/../.package-flat-state.json)')
     parser.add_argument('--backend', choices=('auto', 'dnf', 'apt'), default='auto',
                         help='Package manager detection (default: auto)')
     parser.add_argument('--keep-packages', '--keep-rpms', action='store_true', dest='keep_packages',
@@ -399,15 +399,10 @@ def main():
     backend = detect_backend(args.backend)
     output = args.output.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=True)
-    # Retain compatibility with the older RPM-only script's default state path.
     if args.state:
         state_file = args.state.expanduser().resolve()
-    elif (output / STATE_NAME).exists():
-        state_file = output / STATE_NAME
-    elif (output / '.rpm-flat-state.json').exists():
-        state_file = output / '.rpm-flat-state.json'
     else:
-        state_file = output / STATE_NAME
+        state_file = output.parent / STATE_NAME
     state_file.parent.mkdir(parents=True, exist_ok=True)
     state = read_state(state_file)
     print(f'Package manager: {backend}', flush=True)
